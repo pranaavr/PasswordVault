@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- * @author Jorge Zaquitzal CMSC 413 Intro to Cyber Security Project 1
+ * CMSC 413 Intro to Cyber Security Project 1
+ * @author Jorge Zaquitzal
+ * @author Pranaav Rao
  */
 public class PasswordVault {
 //comment 12/1 4:53
