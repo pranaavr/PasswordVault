@@ -25,6 +25,7 @@ import javax.crypto.spec.DESKeySpec;
 
 /**
  * @author Jorge Zaquitzal
+ * @author Pranaav Rao
  * CMSC 413 Intro to Cyber Security 
  * Project 1
  */
