@@ -38,7 +38,6 @@ public class PasswordValut {
 		String choice1;
 		String choice2;
 
-		
 		/*
 		 * Prompt to the user where the user can either 
 		 * create a new password file or add to an 
@@ -46,7 +45,7 @@ public class PasswordValut {
 		 */
 		System.out.println("Welcome to the password vault: \n");
 
-		/*outter loop that takes user 
+		/*Otter loop that takes user 
 		 *input until a valid selection has been made.
 		 */
 		while (cont) {
@@ -329,7 +328,6 @@ public class PasswordValut {
 	public static void encryptFile() {
 
 		Scanner in = new Scanner(System.in);
-
 		System.out.println("Please create 8 digit secret key to encrypt file: ");
 		String key = in.nextLine();
 		File plaintext = new File("password.txt");
@@ -363,28 +361,45 @@ public class PasswordValut {
 		}
 	}
 	/*
-	 * This method encryptes the entire file.
+	 * This method encrypts the entire file.
+	 * DES is a block cipher, an algo that takes a fixed length string 
+	 * of plain text bits and transforms it through some operations into a byte string
+	 * Block size is 64 bits
+	 * Uses a master key to customize transformation of data 
+	 * so that decryption is performed with the key that is created
 	 */
 	public static void encryptDecrypt(String key, int cipherMode, File in, File out) throws InvalidKeyException,
 			NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IOException {
-
+		
+		//creating file input stream to read/write to files
 		FileInputStream fis = new FileInputStream(in);
 		FileOutputStream fos = new FileOutputStream(out);
 
+		//Passes in the bytes of the key
+		//Creates a DESKeySpec object using the first 8 bytes 
+		//in key as the key material for the DES key.
 		DESKeySpec desKeySpec = new DESKeySpec(key.getBytes());
 
+		//Key factories are used to convert keys into key specifications
+		//DES-(Data Encryption Standard) mechanism that can encrypt and decrypt the data
+		//It accepts the plaintext in 64-bit blocks and changes it into the ciphertext 
+		//that uses the 64-bit keys to encrypt the data. 
+		//The algorithm uses the same key to encrypt and decrypt the data.
 		SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
 		SecretKey secretKey = skf.generateSecret(desKeySpec);
-
+		
+		//cipher mode-Electronic code book/PKCS5 padding- PKCS5 padding is defined for 8-byte block sizes
 		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-
+		
+		//Here is where I check if were using encryption or decryption based on the cipher mode
 		if (cipherMode == Cipher.ENCRYPT_MODE) {
-			cipher.init(Cipher.ENCRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));
-			CipherInputStream cis = new CipherInputStream(fis, cipher);
-			write(cis, fos);
+			cipher.init(Cipher.ENCRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));//SHA1PRNG - hash algo - PRNG = Pseudo Random Number Generator
+			CipherInputStream cis = new CipherInputStream(fis, cipher);//cipher input stream takes in file input stream and cipher 
+			write(cis, fos);//write to file 
+			//ELSE decrypt cipher mode
 		} else if (cipherMode == Cipher.DECRYPT_MODE) {
-			cipher.init(Cipher.DECRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));
-			CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+			cipher.init(Cipher.DECRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));//SHA1PRNG - hash algo - PRNG = Pseudo Random Number Generator
+			CipherOutputStream cos = new CipherOutputStream(fos, cipher);//cipher input stream takes in file input stream and cipher 
 			write(fis, cos);
 		}
 	}
@@ -392,7 +407,7 @@ public class PasswordValut {
 	 * This method write the encrypted text to the encrypted file.
 	 */
 	private static void write(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[64];
+		byte[] buffer = new byte[64]; //64 bytes
 		int numOfBytesRead;
 		while ((numOfBytesRead = in.read(buffer)) != -1) {
 			out.write(buffer, 0, numOfBytesRead);
