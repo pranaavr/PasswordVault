@@ -13,6 +13,8 @@ public class Gui {
     private String u = "u";
     private String p = "p";
     private String key = "";
+    private String del = "w";
+    private String passkey;
 
 
     public void mainFrame() {
@@ -67,12 +69,31 @@ public class Gui {
 
 
     public void login() {
-        JFrame mainFrame = new JFrame("Login");
-		mainFrame.setSize(450, 450);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setVisible(true);
-		mainFrame.setLayout(null);
-		mainFrame.setLocationRelativeTo(null);
+        JFrame frame = new JFrame("Login");
+		frame.setSize(450, 450);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setLayout(null);
+		frame.setLocationRelativeTo(null);
+
+        JLabel prompt = new JLabel("Please enter key to decrypt file: ");
+		prompt.setBounds(80, 100, 275, 100);
+		frame.add(prompt);
+
+        JTextField passkeyin = new JTextField();
+        passkeyin.setBounds(100, 175, 225, 35);
+        frame.add(passkeyin);
+        
+        passkeyin.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                 Gui.this.passkey = passkeyin.getText();
+                 PasswordVault.decryptFile(passkey);
+                 OptionPage();
+                 frame.setVisible(false);
+            }
+        });
+
+
     }
 
 
@@ -192,7 +213,8 @@ public class Gui {
         /*two.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) { 
-                 frame.setVisible(false);               
+                viewContents(); 
+                frame.setVisible(false);               
              }
          });*/
 
@@ -209,12 +231,13 @@ public class Gui {
              }
         });
 
-        /*three.addActionListener(new ActionListener() {
+        three.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) { 
-                 frame.setVisible(false);               
+                delRec(); 
+                frame.setVisible(false);               
              }
-        });*/
+        });
 
         four.addActionListener(new ActionListener() {
             @Override
@@ -242,10 +265,6 @@ public class Gui {
         keyin.setBounds(100, 175, 225, 35);
         frame.add(keyin);
         
-        JButton enc = new JButton("Encrypt");
-		enc.setBounds(140,275,125,75);
-		frame.add(enc);
-        
         keyin.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 Gui.this.key = keyin.getText();
@@ -257,5 +276,58 @@ public class Gui {
         });
 
     }
+
+
+    /*public void viewContents() throws IOException {
+        JFrame frame = new JFrame("View Contents");
+		frame.setSize(450, 450);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setLayout(null);
+		frame.setLocationRelativeTo(null);
+
+        JLabel contents = new JLabel(text);
+
+        
+    }*/
+
+
+    public void delRec() {
+        JFrame frame = new JFrame("Delete Record");
+		frame.setSize(450, 450);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setLayout(null);
+		frame.setLocationRelativeTo(null);
+
+        JLabel prompt = new JLabel("Please specify which website to delete info: ");
+		prompt.setBounds(80, 100, 275, 100);
+		frame.add(prompt);
+
+        JTextField webin = new JTextField();
+        webin.setBounds(100, 175, 225, 35);
+        frame.add(webin);
+        
+        JButton delButton = new JButton("Delete");
+        delButton.setBounds(150,250,125,75);
+		frame.add(delButton);
+
+        webin.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                Gui.this.del = webin.getText();
+                delButton.setText("Delete "+del); 
+            }
+        });
+
+        delButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                PasswordVault.deleteRecord(del);
+                OptionPage();
+                frame.setVisible(false);
+            }
+        });
+
+    }
+
 
 }

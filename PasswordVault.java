@@ -14,7 +14,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Scanner;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
@@ -78,6 +77,7 @@ import javax.crypto.spec.DESKeySpec;
 			System.out.println("Error Occured.Terminating program. ");
 		}
 	}
+	
 	/*
 	 * This method iterated though the file to print 
 	 * its contents.
@@ -85,15 +85,11 @@ import javax.crypto.spec.DESKeySpec;
 	public static void printFileContents() throws IOException {
 		// variable declaration
 		int ch;
-
+		
 		// check if File exists or not
 		FileReader fr = null;
-		try {
-			fr = new FileReader("password.txt");
-		} catch (FileNotFoundException fe) {
-			System.out.println("File not found");
-		}
-
+		fr = new FileReader("password.txt");
+		
 		// read from FileReader till the end of file
 		while ((ch = fr.read()) != -1) {
 			System.out.print((char) ch);
@@ -147,21 +143,16 @@ import javax.crypto.spec.DESKeySpec;
 			e.printStackTrace();
 		}
 	}
+	
 	/*
 	 * This decryptes the file with a master key that
 	 * is created by the user
 	 */
-	public static void decryptFile() {
+	public static void decryptFile(String passkey) {
 		File decrypted = new File("password.txt");
 		File encrypted = new File("encrypted_password.txt");
-		Scanner in = new Scanner(System.in);
-		String passKey;
-		boolean authen = false;
-		System.out.println("Enter the secret 8 digit key to decrypt file: ");
-		passKey = in.nextLine();
 		try {
-			encryptDecrypt(passKey, Cipher.DECRYPT_MODE, encrypted, decrypted);
-			System.out.println("Decryption Complete\n");
+			encryptDecrypt(passkey, Cipher.DECRYPT_MODE, encrypted, decrypted);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException
 				| IOException e) {
 			e.printStackTrace();
