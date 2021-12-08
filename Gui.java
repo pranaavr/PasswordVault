@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -240,10 +241,21 @@ public class Gui {
         JTextField keyin = new JTextField("8-digit key");
         keyin.setBounds(100, 175, 225, 35);
         frame.add(keyin);
-        /*keyin.addActionListener(new ActionListener() {
-
+        
+        JButton enc = new JButton("Encrypt");
+		enc.setBounds(140,275,125,75);
+		frame.add(enc);
+        
+        keyin.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                Gui.this.key = keyin.getText();
+                PasswordVault.encryptFile(key);
+                File file = new File("password.txt");
+				file.delete();
+                frame.setVisible(false); 
             }
-        );*/
+        });
+
     }
 
 }

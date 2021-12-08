@@ -137,11 +137,7 @@ import javax.crypto.spec.DESKeySpec;
 	 * This method encryptes the file with a master key that
 	 * is created by the user
 	 */
-	public static void encryptFile() {
-
-		Scanner in = new Scanner(System.in);
-		System.out.println("Please create 8 digit secret key to encrypt file: ");
-		String key = in.nextLine();
+	public static void encryptFile(String key) {
 		File plaintext = new File("password.txt");
 		File encrypted = new File("encrypted_password.txt");
 		try {

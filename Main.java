@@ -102,9 +102,9 @@ public class Main {
 				 * a full encryption of the file 
 				 * is done.
 				 */
-				PasswordVault.encryptFile();
+				/*PasswordVault.encryptFile();
 				File file = new File("password.txt");
-				file.delete();
+				file.delete();*/
 				cont = false;
 
 			} else if (choice.equals("2")) {
@@ -143,11 +143,11 @@ public class Main {
 					}
 				}
 				
-				PasswordVault.encryptFile();
+				/*PasswordVault.encryptFile();
 				File file = new File("password.txt");
-				file.delete();
+				file.delete();*/
 				cont = false;
-                
+
 			} else if (choice.isEmpty()) {
 					
 				System.out.println("No entry was made.Please try again.\n");
