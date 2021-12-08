@@ -25,177 +25,18 @@ import javax.crypto.spec.DESKeySpec;
 
 /**
  * @author Jorge Zaquitzal
+ * @author Pranaav Rao
  * CMSC 413 Intro to Cyber Security 
  * Project 1
  */
-public class PasswordValut {
 
-	public static void main(String[] args) throws IOException {
-
-		Scanner in = new Scanner(System.in);
-		String choice = null;
-		boolean cont = true;
-		String choice1;
-		String choice2;
-
-		/*
-		 * Prompt to the user where the user can either 
-		 * create a new password file or add to an 
-		 * existing password file.
-		 */
-		System.out.println("Welcome to the password vault: \n");
-
-		/*Otter loop that takes user 
-		 *input until a valid selection has been made.
-		 */
-		while (cont) {
-
-			System.out.println(
-			"Please 1 to add existing password file.\n" 
-			+ "Or press 2 to create a new password file.\n");
-			choice = in.nextLine();
-
-			if (choice.equals("1")) {
-
-				/*
-				 * If there is an existing file
-				 * the user is asked what they would
-				 * like to do with existing file.
-				 * This decrypts the existing encrypted 
-				 * file using the 8 digit key that was created.
-				 */
-
-				decryptFile();
-
-				/*
-				 * Internal loop to prompt file options
-				 */
-				boolean loopChoice_2 = true;
-				while (loopChoice_2) {
-
-					System.out.println(
-					"To view Username and passwords press 1\n" 
-					+ "To delete entry press 2\n"
-					+ "To Add to list press 3\n" 
-					+ "To exit press 4\n");
-					choice1 = in.next();
-
-					/*
-					 * Choice number 1 only prints
-					 * the file contents.
-					 */
-					if (choice1.equals("1")) {
-
-						System.out.println();
-						printFileContents();
-						System.out.println();
-						
-						/*
-						 * Choice number 2 deletes the
-						 * record that the user wants to 
-						 * remove from the file.
-						 */
-					} else if (choice1.equals("2")) {
-
-						System.out.println(
-						"Enter the website whos username and password\n" 
-						+ "you'd like to delete:\n");
-						String website = in.next();
-						deleteRecord(website);
-						System.out.println("Account stating with " + website + " has been deleted.\n");
-
-						/*
-						 * Choice number 3 allows user
-						 * add to the file.
-						 */
-					} else if (choice1.equals("3")) {
-
-						dataInputLoop();
-
-						/*
-						 * Choice number 4 exits the
-						 * program.
-						 */
-					} else if (choice1.equals("4")) {
-
-						System.out.println("Exiting!");
-						loopChoice_2 = false;
-
-					}
-				}
-				/*
-				 * If the program is exited then
-				 * a full encryption of the file 
-				 * is done.
-				 */
-				encryptFile();
-				File file = new File("password.txt");
-				file.delete();
-				cont = false;
-
-			} else if (choice.equals("2")) {
-
-				createFile();
-				dataInputLoop();
-				boolean loopChoice = true;
-
-				while (loopChoice) {
-
-					System.out.println(
-					"To view Username and passwords press 1\n" 
-					+ "To delete entry press 2\n"
-					+ "To Add to list press 3\n" + "To exit press 4");
-					choice2 = in.next();
-
-					if (choice2.equals("1")) {
-
-						System.out.println();
-						printFileContents();
-						System.out.println();
-
-					} else if (choice2.equals("2")) {
-
-						System.out.println(
-						"Enter the website whos username and password\n" 
-						+ "you'd like to delete:\n");
-						String website = in.next();
-						deleteRecord(website);
-						System.out.println("Account stating with " + website + " has been deleted.\n");
-
-					} else if (choice2.equals("3")) {
-
-						dataInputLoop();
-
-					} else if (choice2.equals("4")) {
-
-						System.out.println("Exiting!");
-						loopChoice = false;
-
-					}
-				}
-				
-				encryptFile();
-				File file = new File("password.txt");
-				file.delete();
-				cont = false;
-
-			} else if (choice.isEmpty()) {
-				
-				System.out.println("No entry was made.Please try again.\n");
-				cont = true;
-				
-			}else {
-			
-			System.out.println(choice + " Is not an option. Please enter one of the two options.\n");
-			}
-
-		}
-	}
+ public class PasswordVault {
+	
 	/*
 	 * This method deletes a row identified by the 
 	 * website which is entered by the user.
 	 */
-	private static void deleteRecord(String company) {
+	public static void deleteRecord(String company) {
 
 		int indexOfCompany = 0;
 		String del = " ";
@@ -241,7 +82,7 @@ public class PasswordValut {
 	 * This method iterated though the file to print 
 	 * its contents.
 	 */
-	private static void printFileContents() throws IOException {
+	public static void printFileContents() throws IOException {
 
 		// variable declaration
 		int ch;
