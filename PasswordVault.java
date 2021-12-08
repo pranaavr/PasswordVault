@@ -83,7 +83,6 @@ import javax.crypto.spec.DESKeySpec;
 	 * its contents.
 	 */
 	public static void printFileContents() throws IOException {
-
 		// variable declaration
 		int ch;
 
@@ -107,23 +106,21 @@ import javax.crypto.spec.DESKeySpec;
 	 */
 	public static void createFile() throws IOException {
 
-		System.out.println("Creating new password file.\n");
 		File file = new File("encrypted_password.txt");
 
 		if (!file.exists()) {
 			file.createNewFile();
 		} else {
-			System.out.println("File already exists.");
 			System.exit(0);
 		}
 	}
+	
 	/*
 	 * This method is the loop that takes users input to 
 	 * fill the file with in this order:
 	 * **website username password**
 	 */
-	public static void dataInputLoop() throws IOException {
-
+	public static void dataInput(String website, String userName, String password) throws IOException {
 		String file = "password.txt";
 //		File file = new File("password.txt");
 		// created filewriter objected called fw
@@ -131,37 +128,11 @@ import javax.crypto.spec.DESKeySpec;
 		// created a printwriter object called pw
 		PrintWriter pw = new PrintWriter(fw);
 
-		Scanner in = new Scanner(System.in);
-		String website;
-		String userName = "";
-		String password = "";
-		String choice;
-		boolean loop = true;
+		pw.printf("%s %s %s\n", website, userName, password);
 
-		while (loop) {
-
-			System.out.println("Please enter Website");
-			website = in.nextLine();
-			System.out.println("Please enter username");
-			userName = in.nextLine();
-			System.out.println("Please enter password");
-			password = in.nextLine();
-
-			pw.printf("%s %s %s\n", website, userName, password);
-
-			System.out.println("Data has been saved to file.");
-			System.out.println();
-			System.out.println("Would you like to enter more information ? Yes or no\n");
-			choice = in.nextLine();
-
-			if (choice.equals("yes")) {
-				loop = true;
-			} else {
-				loop = false;
-			}
-		}
 		pw.close();
 	}
+	
 	/*
 	 * This method encryptes the file with a master key that
 	 * is created by the user
@@ -175,7 +146,6 @@ import javax.crypto.spec.DESKeySpec;
 		File encrypted = new File("encrypted_password.txt");
 		try {
 			encryptDecrypt(key, Cipher.ENCRYPT_MODE, plaintext, encrypted);
-			System.out.println("Encryption Complete\n");
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException
 				| IOException e) {
 			e.printStackTrace();

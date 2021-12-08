@@ -85,7 +85,6 @@ public class Main {
 						 */
 					} else if (choice1.equals("3")) {
 
-						PasswordVault.dataInputLoop();
 
 						/*
 						 * Choice number 4 exits the
@@ -110,8 +109,6 @@ public class Main {
 
 			} else if (choice.equals("2")) {
 
-				PasswordVault.createFile();
-				PasswordVault.dataInputLoop();
 				boolean loopChoice = true;
 
 				while (loopChoice) {
@@ -137,9 +134,6 @@ public class Main {
 						PasswordVault.deleteRecord(website);
 						System.out.println("Account stating with " + website + " has been deleted.\n");
 
-					} else if (choice2.equals("3")) {
-
-						PasswordVault.dataInputLoop();
 
 					} else if (choice2.equals("4")) {
 
@@ -153,6 +147,7 @@ public class Main {
 				File file = new File("password.txt");
 				file.delete();
 				cont = false;
+                
 			} else if (choice.isEmpty()) {
 					
 				System.out.println("No entry was made.Please try again.\n");
