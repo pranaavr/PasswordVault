@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
+import javax.swing.JTextPane;
 
 public class Gui {
     private String w = "w";
@@ -29,7 +27,7 @@ public class Gui {
 		 */
 		JFrame mainFrame = new JFrame("Welcome");
 		mainFrame.setSize(450, 450);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setVisible(true);
 		mainFrame.setLayout(null);
 		mainFrame.setLocationRelativeTo(null);
@@ -72,11 +70,16 @@ public class Gui {
          });
     }
 
-
+    /**
+     * Login page
+     * prompts for user key linked to created file
+     * decryptFile() from PasswordVault called to validate key
+     * if validated, sent to Options frame to edit credentials
+     */
     public void login() {
         JFrame frame = new JFrame("Login");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -101,11 +104,16 @@ public class Gui {
 
     }
 
-
+    /**
+     * Create New File
+     * only creates new encrypted file to save credentials
+     * Next button moves to Data Input frame
+     * @throws IOException
+     */
     public void createNewFile() throws IOException {
         JFrame frame = new JFrame("New File created");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -132,11 +140,16 @@ public class Gui {
          });
     }
 
-
+    /**
+     * create new login record
+     * press enter after ever insert into input field
+     * Save moves to Options frame
+     * @throws IOException
+     */
     public void dataInput() throws IOException {
         JFrame frame = new JFrame("Input Data");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -147,24 +160,39 @@ public class Gui {
         username.setBounds(50, 125, 200, 35);
         JTextField password = new JTextField("Password",30);
         password.setBounds(50, 175, 200, 35);
+        JLabel webL = new JLabel();
+        webL.setBounds(275,75,100,35);
+        JLabel webU = new JLabel();
+        webU.setBounds(275,125,100,35);
+        JLabel webP = new JLabel();
+        webP.setBounds(275,175,100,35);
+
         frame.add(website);
         frame.add(username);
         frame.add(password);
+        
         website.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 Gui.this.w = website.getText();
+                webL.setText(website.getText());
             }
         });
         username.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 Gui.this.u = username.getText();
+                webU.setText(username.getText());
             }
         });
         password.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 Gui.this.p = password.getText();
+                webP.setText(password.getText());
             }
         });
+
+        frame.add(webL);
+        frame.add(webU);
+        frame.add(webP);
 
         JButton save = new JButton("Save");
 		save.setBounds(140,275,125,75);
@@ -185,11 +213,17 @@ public class Gui {
         
     }
 
-
+    /**
+     * Lists possible options for this program
+     * View button will move to View frame
+     * Add button will move to Data Input frame
+     * Delete buttom will move to DelRec frame
+     * Exit will move to Create Key frame
+     */
     public void OptionPage() {
         JFrame frame = new JFrame("Main");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -215,13 +249,18 @@ public class Gui {
 		four.setBounds(215,250,125,75);
 		frame.add(four);
 
-        /**two.addActionListener(new ActionListener() {
+        one.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) { 
-                viewContents();
+                try {
+                    viewContents();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 frame.setVisible(false);               
              }
-         });**/
+         });
 
         two.addActionListener(new ActionListener() {
             @Override
@@ -229,7 +268,6 @@ public class Gui {
                  try {
                     dataInput();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } 
                  frame.setVisible(false);               
@@ -253,11 +291,14 @@ public class Gui {
          });
     }
 
-
+    /**
+     * Takes user input for key to access file
+     * Press enter to save and exit, returns to main frame
+     */
     public void createKey() {
         JFrame frame = new JFrame("Create Key");
         frame.setSize(450, 450);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
@@ -276,17 +317,22 @@ public class Gui {
                 PasswordVault.encryptFile(key);
                 File file = new File("password.txt");
 				file.delete();
-                frame.setVisible(false); 
+                frame.setVisible(false);
+                mainFrame();
             }
         });
 
     }
 
-
-    /**public void viewContents() throws IOException {
+    /**
+     * view all added credentials on this frame
+     * home takes to options page
+     * @throws IOException
+     */
+    public void viewContents() throws IOException {
         JFrame frame = new JFrame("View Contents");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
@@ -299,21 +345,37 @@ public class Gui {
             storeString = storeString+temp;
         }
         fileRead.close();
-        
-
-        JTextArea view = new JTextArea(storeString);
-        view.setBounds(50, 50, 350, 350);
-        view.setLineWrap(true);
-        view.setWrapStyleWord(true);
+             
+        JTextPane view = new JTextPane();
+        view.setEditable(false);
+        view.setBounds(50, 40, 325, 250);
+        view.setVisible(true);
+        view.setText(storeString);
         JScrollPane scrollBar = new JScrollPane(view,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        frame.add(scrollBar);        
-    }**/
+        frame.add(scrollBar);
 
+        frame.getContentPane().add(view);
 
+        JButton homeButton = new JButton("Home");
+        homeButton.setBounds(150,315,125,75);
+		frame.add(homeButton);
+
+        homeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                OptionPage();
+                frame.setVisible(false);
+            }
+        });               
+    }
+
+    /**
+     * deletes specific login credential
+     * based on website field
+     */
     public void delRec() {
         JFrame frame = new JFrame("Delete Record");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
