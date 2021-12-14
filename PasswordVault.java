@@ -166,17 +166,23 @@ import javax.crypto.spec.DESKeySpec;
 	 * Block size is 64 bits
 	 * Uses a master key to customize transformation of data 
 	 * so that decryption is performed with the key that is created
+	 * Key - is the key that user makes
+	 * cipherMode - will be either encrypt or decrypt 
+	 * file in - in the file that will be encrypted
+	 * file out -  is the encrypted file that is created
 	 */
 	public static void encryptDecrypt(String key, int cipherMode, File in, File out) throws InvalidKeyException,
 			NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IOException {
 		
 		//creating file input stream to read/write to files
+		// this reads and writes
 		FileInputStream fis = new FileInputStream(in);
 		FileOutputStream fos = new FileOutputStream(out);
 
 		//Passes in the bytes of the key
 		//Creates a DESKeySpec object using the first 8 bytes 
 		//in key as the key material for the DES key.
+		//the key has to have 8 bytes minimun and convert to byte array
 		DESKeySpec desKeySpec = new DESKeySpec(key.getBytes());
 
 		//Key factories are used to convert keys into key specifications
@@ -185,18 +191,26 @@ import javax.crypto.spec.DESKeySpec;
 		//that uses the 64-bit keys to encrypt the data. 
 		//The algorithm uses the same key to encrypt and decrypt the data.
 		SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
+		//generate secret key that is passweed desKeySpec as paremeter
 		SecretKey secretKey = skf.generateSecret(desKeySpec);
 		
 		//cipher mode-Electronic code book/PKCS5 padding- PKCS5 padding is defined for 8-byte block sizes
+		//DES- algo / Ciphermode - ECB 
 		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		
 		//Here is where I check if were using encryption or decryption based on the cipher mode
 		if (cipherMode == Cipher.ENCRYPT_MODE) {
+			//initialize cipher object
+			//parameters are as follows:
+			//this condition uses the encrypt mode, the secret key generated, then a soucre of randomness
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));//SHA1PRNG - hash algo - PRNG = Pseudo Random Number Generator
 			CipherInputStream cis = new CipherInputStream(fis, cipher);//cipher input stream takes in file input stream and cipher 
 			write(cis, fos);//write to file 
+			//initialize cipher object
+			//parameters are as follows:
 			//ELSE decrypt cipher mode
 		} else if (cipherMode == Cipher.DECRYPT_MODE) {
+			//this condition uses the encrypt mode, the secret key generated, then a soucre of randomness
 			cipher.init(Cipher.DECRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));//SHA1PRNG - hash algo - PRNG = Pseudo Random Number Generator
 			CipherOutputStream cos = new CipherOutputStream(fos, cipher);//cipher input stream takes in file input stream and cipher 
 			write(fis, cos);
