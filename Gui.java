@@ -11,6 +11,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+/**
+ * @author Jorge Zaquitzal
+ * @author Pranaav Rao
+ * CMSC 413 Intro to Cyber Security 
+ * Project 1
+ */
 public class Gui {
     private String w = "w";
     private String u = "u";
@@ -27,7 +33,7 @@ public class Gui {
 		 */
 		JFrame mainFrame = new JFrame("Welcome");
 		mainFrame.setSize(450, 450);
-		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 		mainFrame.setLayout(null);
 		mainFrame.setLocationRelativeTo(null);
@@ -44,7 +50,7 @@ public class Gui {
 		one.setBounds(25,215,150,100);
 		mainFrame.add(one);
         
-		JButton two = new JButton("Add to existing");
+		JButton two = new JButton("Login");
 		two.setBounds(250,215,150,100);
 		mainFrame.add(two);
         
@@ -113,7 +119,7 @@ public class Gui {
     public void createNewFile() throws IOException {
         JFrame frame = new JFrame("New File created");
 		frame.setSize(450, 450);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);

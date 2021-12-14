@@ -106,10 +106,9 @@ import javax.crypto.spec.DESKeySpec;
 		File file = new File("encrypted_password.txt");
 
 		if (!file.exists()) {
-			file.createNewFile();
-		} else {
-			System.exit(0);
+			file.delete();
 		}
+		file.createNewFile();
 	}
 	
 	/*
