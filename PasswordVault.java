@@ -97,6 +97,7 @@ import javax.crypto.spec.DESKeySpec;
 		// close the file
 		fr.close();
 	}
+	
 	/*
 	 * This method creates the file if it dosn't already exits.
 	 */
@@ -158,6 +159,7 @@ import javax.crypto.spec.DESKeySpec;
 			e.printStackTrace();
 		}
 	}
+	
 	/*
 	 * This method encrypts the entire file.
 	 * DES is a block cipher, an algo that takes a fixed length string 
@@ -201,6 +203,7 @@ import javax.crypto.spec.DESKeySpec;
 			write(fis, cos);
 		}
 	}
+	
 	/*
 	 * This method write the encrypted text to the encrypted file.
 	 */

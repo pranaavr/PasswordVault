@@ -1,12 +1,17 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 public class Gui {
     private String w = "w";
@@ -210,13 +215,13 @@ public class Gui {
 		four.setBounds(215,250,125,75);
 		frame.add(four);
 
-        /*two.addActionListener(new ActionListener() {
+        /**two.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) { 
-                viewContents(); 
+                viewContents();
                 frame.setVisible(false);               
              }
-         });*/
+         });**/
 
         two.addActionListener(new ActionListener() {
             @Override
@@ -278,7 +283,7 @@ public class Gui {
     }
 
 
-    /*public void viewContents() throws IOException {
+    /**public void viewContents() throws IOException {
         JFrame frame = new JFrame("View Contents");
 		frame.setSize(450, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -286,10 +291,23 @@ public class Gui {
 		frame.setLayout(null);
 		frame.setLocationRelativeTo(null);
 
-        JLabel contents = new JLabel(text);
-
+        String storeString = "";
+        FileReader textFile = new FileReader("password.txt");
+        Scanner fileRead = new Scanner(textFile);
+        while (fileRead.hasNextLine()) {
+            String temp = fileRead.nextLine()+"\n";
+            storeString = storeString+temp;
+        }
+        fileRead.close();
         
-    }*/
+
+        JTextArea view = new JTextArea(storeString);
+        view.setBounds(50, 50, 350, 350);
+        view.setLineWrap(true);
+        view.setWrapStyleWord(true);
+        JScrollPane scrollBar = new JScrollPane(view,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        frame.add(scrollBar);        
+    }**/
 
 
     public void delRec() {
