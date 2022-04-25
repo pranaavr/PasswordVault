@@ -11,12 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-/**
- * @author Jorge Zaquitzal
- * @author Pranaav Rao
- * CMSC 413 Intro to Cyber Security 
- * Project 1
- */
+
 public class Gui {
     private String w = "w";
     private String u = "u";

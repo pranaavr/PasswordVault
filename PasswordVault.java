@@ -22,12 +22,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-/**
- * @author Jorge Zaquitzal
- * @author Pranaav Rao
- * CMSC 413 Intro to Cyber Security 
- * Project 1
- */
 
  public class PasswordVault {
 	
